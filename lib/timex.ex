@@ -13,3 +13,17 @@ defmodule Timex do
   end
   @moduledoc File.read!("README.md")
 end
+
+defimpl String.Chars, for: [ Timex.DateTime, Timex.Date, Timex.Time ] do
+  def to_string(dt) do
+    Timex.DateFormat.format!(dt)
+  end
+end
+
+defimpl Inspect, for: [ Timex.DateTime, Timex.Date, Timex.Time ] do
+  @inspected inspect(@for)
+
+  def inspect(dt, _opts) do
+    "#" <> @inspected <> "<" <> Timex.DateFormat.format!(dt) <> ">"
+  end
+end
