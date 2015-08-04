@@ -18,7 +18,8 @@ defmodule Timex.DateFormat do
   @doc """
   Converts date values to strings according to the given template (aka format string).
   """
-  @spec format(%DateTime{}, String.t) :: {:ok, String.t} | {:error, String.t}
+  @spec format(%DateTime{}, String.t | nil) :: {:ok, String.t} | {:error, String.t}
+  defdelegate format(%DateTime{} = date), to: Formatter
   defdelegate format(%DateTime{} = date, format_string), to: Formatter
 
   @doc """
@@ -32,9 +33,10 @@ defmodule Timex.DateFormat do
   defdelegate format(%DateTime{} = date, format_string, formatter), to: Formatter
 
   @doc """
-  Raising version of `format/2`. Returns a string with formatted date or raises a `FormatError`.
+  Raising version of `format/1` or `format/2`. Returns a string with formatted date or raises a `FormatError`.
   """
-  @spec format!(%DateTime{}, String.t) :: String.t | no_return
+  @spec format!(%DateTime{}, String.t | nil) :: String.t | no_return
+  defdelegate format!(%DateTime{} = date), to: Formatter
   defdelegate format!(%DateTime{} = date, format_string), to: Formatter
 
   @doc """
@@ -50,7 +52,8 @@ defmodule Timex.DateFormat do
   @doc """
   Parses the date encoded in `string` according to the template.
   """
-  @spec parse(String.t, String.t) :: {:ok, %DateTime{}} | {:error, term}
+  @spec parse(String.t, String.t | nil) :: {:ok, %DateTime{}} | {:error, term}
+  defdelegate parse(date_string), to: Parser
   defdelegate parse(date_string, format_string), to: Parser
 
   @doc """
@@ -63,9 +66,10 @@ defmodule Timex.DateFormat do
   defdelegate parse(date_string, format_string, parser), to: Parser
 
   @doc """
-  Raising version of `parse/2`. Returns a DateTime struct, or raises a `ParseError`.
+  Raising version of `parse/1` or `parse/2`. Returns a DateTime struct, or raises a `ParseError`.
   """
-  @spec parse!(String.t, String.t) :: %DateTime{} | no_return
+  @spec parse!(String.t, String.t | nil) :: %DateTime{} | no_return
+  defdelegate parse!(date_string), to: Parser
   defdelegate parse!(date_string, format_string), to: Parser
 
   @doc """

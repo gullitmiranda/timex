@@ -30,8 +30,8 @@ defmodule Timex.Format.DateTime.Formatter do
 
   If an error is encountered during formatting, `format!` will raise.
   """
-  @spec format!(%DateTime{}, String.t, __MODULE__ | nil) :: String.t | no_return
-  def format!(%DateTime{} = date, format_string, formatter \\ Default)
+  @spec format!(%DateTime{}, String.t | nil, __MODULE__ | nil) :: String.t | no_return
+  def format!(%DateTime{} = date, format_string \\ "{ISOz}", formatter \\ Default)
     when is_binary(format_string) and is_atom(formatter)
     do
       case format(date, format_string, formatter) do
@@ -45,8 +45,8 @@ defmodule Timex.Format.DateTime.Formatter do
   string and formatter. If a formatter is not provided, the formatter
   used is `Timex.DateFormat.Formatters.DefaultFormatter`.
   """
-  @spec format(%DateTime{}, String.t, __MODULE__ | nil) :: {:ok, String.t} | {:error, term}
-  def format(%DateTime{} = date, format_string, formatter \\ Default)
+  @spec format(%DateTime{}, String.t | nil, __MODULE__ | nil) :: {:ok, String.t} | {:error, term}
+  def format(%DateTime{} = date, format_string \\ "{ISOz}", formatter \\ Default)
     when is_binary(format_string) and is_atom(formatter),
     do: formatter.format(date, format_string)
 

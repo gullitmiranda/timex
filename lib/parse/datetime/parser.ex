@@ -23,8 +23,8 @@ defmodule Timex.Parse.DateTime.Parser do
       %DateTime{year: 2014, month: 7, day: 29, hour: 0, minute: 20, second: 41, ms: 196, tz: %Timezone{name: "CST"}}
 
   """
-  @spec parse(binary, binary) :: {:ok, %DateTime{}} | {:error, term}
-  def parse(date_string, format_string)
+  @spec parse(binary, binary | nil) :: {:ok, %DateTime{}} | {:error, term}
+  def parse(date_string, format_string \\ "{ISOz}")
     when is_binary(date_string) and is_binary(format_string),
     do: parse(date_string, format_string, DefaultTokenizer)
 
@@ -54,10 +54,10 @@ defmodule Timex.Parse.DateTime.Parser do
   end
 
   @doc """
-  Same as `parse/2` and `parse/3`, but raises on error.
+  Same as `parse/1`, `parse/2` and `parse/3`, but raises on error.
   """
-  @spec parse!(String.t, String.t, atom | nil) :: %DateTime{} | no_return
-  def parse!(date_string, format_string, tokenizer \\ DefaultTokenizer)
+  @spec parse!(String.t, String.t | nil, atom | nil) :: %DateTime{} | no_return
+  def parse!(date_string, format_string \\ "{ISOz}", tokenizer \\ DefaultTokenizer)
     when is_binary(date_string) and is_binary(format_string) and is_atom(tokenizer)
     do
       case parse(date_string, format_string, tokenizer) do
